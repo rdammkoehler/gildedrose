@@ -70,7 +70,7 @@ public class GildedRoseTest {
     updateQuality();
     assertThat(itemOne().quality, is(21));
   }
-  
+
   @Test
   public void ctConcertPassIncreasesInQualityByTwoWhen10DaysBeforeItsExpirationDay() {
     initialize(new Item(BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT, 10, 20));
@@ -84,56 +84,63 @@ public class GildedRoseTest {
     updateQuality();
     assertThat(itemOne().quality, is(23));
   }
-  
+
   @Test
   public void ctConcertPassIsWorthlessWhenAfterItsExpirationDay() {
     initialize(new Item(BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT, -1, 20));
     updateQuality();
     assertThat(itemOne().quality, is(0));
   }
-  
+
   @Test
   public void ctConcertPassCannotExceedQuality50Before10DaysToSellIn() {
-    initialize(new Item(BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT,11,50));
+    initialize(new Item(BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT, 11, 50));
     updateQuality();
-    assertThat(itemOne().quality,is(50));
+    assertThat(itemOne().quality, is(50));
   }
-  
+
   @Test
   public void ctConcertPassCannotExceedQuality50Before5DaysToSellIn() {
-    initialize(new Item(BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT,5,50));
+    initialize(new Item(BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT, 5, 50));
     updateQuality();
-    assertThat(itemOne().quality,is(50));
+    assertThat(itemOne().quality, is(50));
   }
-  
+
   @Test
   public void ctConcertPassCannotExceedQuality50Before0DaysToSellIn() {
-    initialize(new Item(BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT,1,50));
+    initialize(new Item(BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT, 1, 50));
     updateQuality();
-    assertThat(itemOne().quality,is(50));
+    assertThat(itemOne().quality, is(50));
   }
-  
+
   @Test
   public void ctConcertPassCannotExceedQualtiy50() {
     initialize(new Item(BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT, 2, 48));
     updateQuality();
     assertThat(itemOne().quality, is(50));
   }
-  
+
   @Test
   public void ctHandOfRangnarosQualityNeverDecreases() {
     initialize(new Item("Sulfuras, Hand of Ragnaros", 10, 10));
     updateQuality();
-    assertThat(itemOne().quality,is(10));
+    assertThat(itemOne().quality, is(10));
   }
 
   @Test
   public void ctHandOfRangnarosNeverExpires() {
     initialize(new Item("Sulfuras, Hand of Ragnaros", 10, 10));
     updateQuality();
-    assertThat(itemOne().sellIn,is(10));
+    assertThat(itemOne().sellIn, is(10));
   }
-  
+
+  @Test
+  public void ctCommonItemsQualityDecreasesByTwoAfterExpiration() {
+    initialize(new Item(JUNK, -2, 5));
+    updateQuality();
+    assertThat(itemOne().quality, is(3));
+  }
+
   private void updateQuality() {
     app.updateQuality();
   }

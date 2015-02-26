@@ -7,11 +7,9 @@ import org.junit.Test;
 public class GildedRoseTest {
 
     @Test
-    public void foo() {
-        Item[] items = new Item[] { new Item("fixme", 0, 0) };
-        GildedRose app = new GildedRose(items);
-        app.updateQuality();
-        assertEquals("fixme", app.items[0].name);
+    public void itemsWhosQualityIsNegativeAreReportedAsQualityZero() {
+      Item[] items = new Item[] { new Item("junk", 0, -1)};
+      GildedRose app = new GildedRose(items);
+      assertEquals(app.items[0].quality, 0);
     }
-
 }

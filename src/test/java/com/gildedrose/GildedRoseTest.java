@@ -1,6 +1,6 @@
 package com.gildedrose;
-
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
@@ -13,7 +13,7 @@ public class GildedRoseTest {
     public void itemsWhosQualityIsNegativeAreReportedAsQualityZero() {
       Item[] items = new Item[] { new Item(JUNK, 0, -1)};
       GildedRose app = new GildedRose(items);
-      assertEquals(0, app.items[0].quality);
+      assertThat(app.items[0].quality, is(0));
     }
     
     @Test
@@ -21,7 +21,7 @@ public class GildedRoseTest {
       Item[] items = new Item[] { new Item(JUNK, 0, 0)};
       GildedRose app = new GildedRose(items);
       app.updateQuality();
-      assertEquals(0, app.items[0].quality);
+      assertThat(app.items[0].quality, is(0));
     }
     
     @Test
@@ -29,7 +29,7 @@ public class GildedRoseTest {
       Item[] items = new Item[] { new Item(AGED_BRIE, 0, 50)};
       GildedRose app = new GildedRose(items);
       app.updateQuality();
-      assertEquals(50, app.items[0].quality);
+      assertThat(app.items[0].quality, is(50));
     }
     
     @Test
@@ -37,7 +37,7 @@ public class GildedRoseTest {
       Item[] items = new Item[] { new Item(AGED_BRIE, 11, 40)};
       GildedRose app = new GildedRose(items);
       app.updateQuality();
-      assertEquals(41, app.items[0].quality);
+      assertThat(app.items[0].quality, is(41));
     }
     
     @Test
@@ -45,6 +45,6 @@ public class GildedRoseTest {
       Item[] items = new Item[] { new Item(AGED_BRIE, 0, 40)};
       GildedRose app = new GildedRose(items);
       app.updateQuality();
-      assertEquals(42, app.items[0].quality);
+      assertThat(app.items[0].quality, is(42));
     }
 }

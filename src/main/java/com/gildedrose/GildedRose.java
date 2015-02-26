@@ -81,10 +81,8 @@ class GildedRose {
   }
 
   private void decrementQuality(Item item) {
-    if (item.quality > QUALITY_FLOOR) {
-      if (!isSulfurasHandOfRagnaros(item)) {
-        item.quality = item.quality - 1;
-      }
+    if (item.quality > QUALITY_FLOOR && !isSulfurasHandOfRagnaros(item)) {
+      item.quality = item.quality - 1;
     }
   }
 }

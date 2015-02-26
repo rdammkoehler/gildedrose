@@ -113,6 +113,13 @@ public class GildedRoseTest {
     assertThat(itemOne().quality,is(50));
   }
   
+  @Test
+  public void ctConcertPassCannotExceedQualtiy50() {
+    initialize(new Item(BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT, 2, 48));
+    updateQuality();
+    assertThat(itemOne().quality, is(50));
+  }
+  
   private void updateQuality() {
     app.updateQuality();
   }

@@ -120,6 +120,14 @@ public class GildedRoseTest {
     assertThat(itemOne().quality, is(50));
   }
   
+  @Test
+  public void ctHandOfRangnarosQualityNeverDecreases() {
+    initialize(new Item("Sulfuras, Hand of Ragnaros", 10, 10));
+    updateQuality();
+    assertThat(itemOne().quality,is(10));
+  }
+  
+  
   private void updateQuality() {
     app.updateQuality();
   }

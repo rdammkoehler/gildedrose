@@ -4,6 +4,8 @@ import static java.lang.Math.max;
 import static java.lang.Math.min;
 
 class GildedRose {
+  private static final int DEFAULT_QUALITY_INCREASE_AMOUNT = 1;
+  private static final int DEFAULT_QUALITY_DECAY_AMOUNT = -1;
   private static final int QUALITY_FLOOR = 0;
   private static final int QUALITY_CEILING = 50;
   private static final String AGED_BRIE = "Aged Brie";
@@ -89,16 +91,21 @@ class GildedRose {
   }
 
   private void incrementQuality(Item item) {
-    item.quality = min(QUALITY_CEILING, item.quality + 1);
+    item.quality = min(QUALITY_CEILING, item.quality + DEFAULT_QUALITY_INCREASE_AMOUNT);
   }
 
   private void decrementQuality(Item item) {
     if (!isSulfurasHandOfRagnaros(item)) {
-      int adjustBy = -1;
-      if (item.name.equals(CONJURED_MANA_CAKE)) {
-        adjustBy *= 2;
-      }
+      int adjustBy = calculateQualityDecayAmount(item);
       item.quality = max(QUALITY_FLOOR, item.quality + adjustBy);
     }
+  }
+
+  private int calculateQualityDecayAmount(Item item) {
+    int adjustBy = DEFAULT_QUALITY_DECAY_AMOUNT;
+    if (item.name.equals(CONJURED_MANA_CAKE)) {
+      adjustBy *= 2;
+    }
+    return adjustBy;
   }
 }

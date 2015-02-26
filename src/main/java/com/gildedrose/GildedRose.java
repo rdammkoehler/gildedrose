@@ -75,9 +75,7 @@ class GildedRose {
   }
 
   private void incrementQuality(Item item) {
-    if (item.quality < QUALITY_CEILING) {
-      item.quality = item.quality + 1;
-    }
+    item.quality = Math.min(QUALITY_CEILING, item.quality + 1);
   }
 
   private void decrementQuality(Item item) {

@@ -26,9 +26,7 @@ class GildedRose {
 
   private void updateItem(Item item) {
     adjustQuality(item);
-
     decrementDaysRemainingToSell(item);
-
     makePostAgingQualityAdjustment(item);
   }
 

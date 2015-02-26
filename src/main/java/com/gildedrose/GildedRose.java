@@ -1,6 +1,7 @@
 package com.gildedrose;
 
 class GildedRose {
+  private static final int QUALITY_FLOOR = 0;
   private static final int QUALITY_CEILING = 50;
   private static final String AGED_BRIE = "Aged Brie";
   private static final String BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT = "Backstage passes to a TAFKAL80ETC concert";
@@ -22,7 +23,7 @@ class GildedRose {
 
   private void updateItem(Item item) {
     if (!isAgedBrie(item) && !isBackstagePass(item)) {
-      if (item.quality > 0) {
+      if (item.quality > QUALITY_FLOOR) {
         if (!isSulfurasHandOfRagnaros(item)) {
           decrementQuality(item);
         }
@@ -54,7 +55,7 @@ class GildedRose {
     if (item.sellIn < 0) {
       if (!isAgedBrie(item)) {
         if (!isBackstagePass(item)) {
-          if (item.quality > 0) {
+          if (item.quality > QUALITY_FLOOR) {
             if (!isSulfurasHandOfRagnaros(item)) {
               decrementQuality(item);
             }

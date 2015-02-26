@@ -49,7 +49,7 @@ class GildedRose {
     }
 
     if (!isSulfurasHandOfRagnaros(item)) {
-      item.sellIn = item.sellIn - 1;
+      decrementDaysRemainingToSell(item);
     }
 
     if (item.sellIn < 0) {
@@ -69,6 +69,10 @@ class GildedRose {
         }
       }
     }
+  }
+
+  private void decrementDaysRemainingToSell(Item item) {
+    item.sellIn = item.sellIn - 1;
   }
 
   private boolean isSulfurasHandOfRagnaros(Item item) {

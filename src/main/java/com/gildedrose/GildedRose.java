@@ -1,5 +1,8 @@
 package com.gildedrose;
 
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+
 class GildedRose {
   private static final int QUALITY_FLOOR = 0;
   private static final int QUALITY_CEILING = 50;
@@ -75,12 +78,12 @@ class GildedRose {
   }
 
   private void incrementQuality(Item item) {
-    item.quality = Math.min(QUALITY_CEILING, item.quality + 1);
+    item.quality = min(QUALITY_CEILING, item.quality + 1);
   }
 
   private void decrementQuality(Item item) {
     if (!isSulfurasHandOfRagnaros(item)) {
-      item.quality = Math.max(QUALITY_FLOOR, item.quality - 1);
+      item.quality = max(QUALITY_FLOOR, item.quality - 1);
     }
   }
 }

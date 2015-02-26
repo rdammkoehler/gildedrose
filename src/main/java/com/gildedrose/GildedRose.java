@@ -48,10 +48,10 @@ class GildedRose {
       if (isAgedBrie(item)) {
         incrementQuality(item);
       } else {
-        if (!isBackstagePass(item)) {
-          decrementQuality(item);
-        } else {
+        if (isBackstagePass(item)) {
           makeWorthless(item);
+        } else {
+          decrementQuality(item);
         }
       }
     }

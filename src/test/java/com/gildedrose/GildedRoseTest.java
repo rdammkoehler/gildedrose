@@ -7,6 +7,7 @@ import org.junit.Test;
 
 public class GildedRoseTest {
 
+  private static final String SULFURAS_HAND_OF_RAGNAROS = "Sulfuras, Hand of Ragnaros";
   private static final String BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT = "Backstage passes to a TAFKAL80ETC concert";
   private static final String JUNK = "junk";
   private static final String AGED_BRIE = "Aged Brie";
@@ -122,14 +123,14 @@ public class GildedRoseTest {
 
   @Test
   public void ctHandOfRangnarosQualityNeverDecreases() {
-    initialize(new Item("Sulfuras, Hand of Ragnaros", 10, 10));
+    initialize(new Item(SULFURAS_HAND_OF_RAGNAROS, 10, 10));
     updateQuality();
     assertThat(itemOne().quality, is(10));
   }
 
   @Test
   public void ctHandOfRangnarosNeverExpires() {
-    initialize(new Item("Sulfuras, Hand of Ragnaros", 10, 10));
+    initialize(new Item(SULFURAS_HAND_OF_RAGNAROS, 10, 10));
     updateQuality();
     assertThat(itemOne().sellIn, is(10));
   }

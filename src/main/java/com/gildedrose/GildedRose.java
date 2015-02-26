@@ -28,15 +28,11 @@ class GildedRose {
 
         if (isBackstagePass(item)) {
           if (item.sellIn < 11) {
-            if (item.quality < QUALITY_CEILING) {
-              incrementQuality(item);
-            }
+            incrementQuality(item);
           }
 
           if (item.sellIn < 6) {
-            if (item.quality < QUALITY_CEILING) {
-              incrementQuality(item);
-            }
+            incrementQuality(item);
           }
         }
       }
@@ -64,9 +60,7 @@ class GildedRose {
           makeWorthless(item);
         }
       } else {
-        if (item.quality < QUALITY_CEILING) {
-          incrementQuality(item);
-        }
+        incrementQuality(item);
       }
     }
   }

@@ -7,6 +7,7 @@ import org.junit.Test;
 
 public class GildedRoseTest {
 
+  private static final String BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT = "Backstage passes to a TAFKAL80ETC concert";
   private static final String JUNK = "junk";
   private static final String AGED_BRIE = "Aged Brie";
   private GildedRose app;
@@ -55,12 +56,19 @@ public class GildedRoseTest {
     updateQuality();
     assertThat(itemOne().quality, is(42));
   }
-  
+
   @Test
   public void ctAgedBrieIncreasesInQualityByOneBeforeItsExpirationDay() {
     initialize(new Item(AGED_BRIE, 1, 40));
     updateQuality();
     assertThat(itemOne().quality, is(41));
+  }
+
+  @Test
+  public void ctConcertPassIncreasesInQualityByOneWhenMoreThan10DaysBeforeItsExpirationDay() {
+    initialize(new Item(BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT, 11, 20));
+    updateQuality();
+    assertThat(itemOne().quality, is(21));
   }
 
   private void updateQuality() {

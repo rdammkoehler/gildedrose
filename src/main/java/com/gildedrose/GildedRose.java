@@ -4,10 +4,10 @@ import static java.lang.Math.max;
 import static java.lang.Math.min;
 
 class GildedRose {
-  private static final int WORTHLESS = 0;
   private static final int DEFAULT_QUALITY_INCREASE_AMOUNT = 1;
   private static final int DEFAULT_QUALITY_DECAY_AMOUNT = -1;
   private static final int QUALITY_FLOOR = 0;
+  private static final int WORTHLESS = QUALITY_FLOOR;
   private static final int QUALITY_CEILING = 50;
   private static final String AGED_BRIE = "Aged Brie";
   private static final String BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT = "Backstage passes to a TAFKAL80ETC concert";

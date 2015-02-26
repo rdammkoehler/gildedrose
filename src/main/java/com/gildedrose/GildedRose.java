@@ -34,9 +34,7 @@ class GildedRose {
         }
       }
     } else {
-      if (item.quality > QUALITY_FLOOR) {
-        decrementQuality(item);
-      }
+      decrementQuality(item);
     }
 
     if (!isSulfurasHandOfRagnaros(item)) {
@@ -46,9 +44,7 @@ class GildedRose {
     if (item.sellIn < 0) {
       if (!isAgedBrie(item)) {
         if (!isBackstagePass(item)) {
-          if (item.quality > QUALITY_FLOOR) {
-            decrementQuality(item);
-          }
+          decrementQuality(item);
         } else {
           makeWorthless(item);
         }

@@ -44,7 +44,7 @@ class GildedRose {
       decrementDaysRemainingToSell(item);
     }
 
-    if (item.sellIn < 0) {
+    if (pastSellBy(item)) {
       if (!isAgedBrie(item)) {
         if (!isBackstagePass(item)) {
           decrementQuality(item);
@@ -57,6 +57,10 @@ class GildedRose {
     }
   }
 
+  private boolean pastSellBy(Item item) {
+    return item.sellIn < 0;
+  }
+  
   private void decrementDaysRemainingToSell(Item item) {
     item.sellIn = item.sellIn - 1;
   }

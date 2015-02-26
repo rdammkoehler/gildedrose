@@ -22,13 +22,7 @@ class GildedRose {
   }
 
   private void updateItem(Item item) {
-    if (!isAgedBrie(item) && !isBackstagePass(item)) {
-      if (item.quality > QUALITY_FLOOR) {
-        if (!isSulfurasHandOfRagnaros(item)) {
-          decrementQuality(item);
-        }
-      }
-    } else {
+    if (isAgedBrie(item) || isBackstagePass(item)) {
       if (item.quality < QUALITY_CEILING) {
         incrementQuality(item);
 
@@ -44,6 +38,12 @@ class GildedRose {
               incrementQuality(item);
             }
           }
+        }
+      }
+    } else {
+      if (item.quality > QUALITY_FLOOR) {
+        if (!isSulfurasHandOfRagnaros(item)) {
+          decrementQuality(item);
         }
       }
     }

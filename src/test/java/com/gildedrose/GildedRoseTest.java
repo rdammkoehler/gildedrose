@@ -10,7 +10,7 @@ public class GildedRoseTest {
     public void itemsWhosQualityIsNegativeAreReportedAsQualityZero() {
       Item[] items = new Item[] { new Item("junk", 0, -1)};
       GildedRose app = new GildedRose(items);
-      assertEquals(app.items[0].quality, 0);
+      assertEquals(0, app.items[0].quality);
     }
     
     @Test
@@ -18,7 +18,7 @@ public class GildedRoseTest {
       Item[] items = new Item[] { new Item("junk", 0, 0)};
       GildedRose app = new GildedRose(items);
       app.updateQuality();
-      assertEquals(app.items[0].quality, 0);
+      assertEquals(0, app.items[0].quality);
     }
     
     @Test
@@ -26,6 +26,14 @@ public class GildedRoseTest {
       Item[] items = new Item[] { new Item("Aged Brie", 0, 50)};
       GildedRose app = new GildedRose(items);
       app.updateQuality();
-      assertEquals(app.items[0].quality,50);
+      assertEquals(50, app.items[0].quality);
+    }
+    
+    @Test
+    public void ctSpecialItemsIncreaseInQualityWithAge() {
+      Item[] items = new Item[] { new Item("Aged Brie", 11, 40)};
+      GildedRose app = new GildedRose(items);
+      app.updateQuality();
+      assertEquals(41, app.items[0].quality);
     }
 }

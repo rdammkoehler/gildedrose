@@ -62,7 +62,9 @@ class GildedRose {
   }
 
   private void decrementDaysRemainingToSell(Item item) {
-    item.sellIn = item.sellIn - 1;
+    if (!isSulfurasHandOfRagnaros(item)) {
+      item.sellIn = item.sellIn - 1;
+    }
   }
 
   private boolean isSulfurasHandOfRagnaros(Item item) {

@@ -126,7 +126,13 @@ public class GildedRoseTest {
     updateQuality();
     assertThat(itemOne().quality,is(10));
   }
-  
+
+  @Test
+  public void ctHandOfRangnarosNeverExpires() {
+    initialize(new Item("Sulfuras, Hand of Ragnaros", 10, 10));
+    updateQuality();
+    assertThat(itemOne().sellIn,is(10));
+  }
   
   private void updateQuality() {
     app.updateQuality();

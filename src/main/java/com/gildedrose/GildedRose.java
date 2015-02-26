@@ -4,6 +4,7 @@ import static java.lang.Math.max;
 import static java.lang.Math.min;
 
 class GildedRose {
+  private static final int WORTHLESS = 0;
   private static final int DEFAULT_QUALITY_INCREASE_AMOUNT = 1;
   private static final int DEFAULT_QUALITY_DECAY_AMOUNT = -1;
   private static final int QUALITY_FLOOR = 0;
@@ -87,7 +88,7 @@ class GildedRose {
   }
 
   private void makeWorthless(Item item) {
-    item.quality = item.quality - item.quality;
+    item.quality = WORTHLESS;
   }
 
   private void incrementQuality(Item item) {

@@ -70,6 +70,13 @@ public class GildedRoseTest {
     updateQuality();
     assertThat(itemOne().quality, is(21));
   }
+  
+  @Test
+  public void ctConcertPassIncreasesInQualityByTwoWhen10DaysBeforeItsExpirationDay() {
+    initialize(new Item(BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT, 10, 20));
+    updateQuality();
+    assertThat(itemOne().quality, is(22));
+  }
 
   private void updateQuality() {
     app.updateQuality();

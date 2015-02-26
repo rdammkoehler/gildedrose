@@ -85,6 +85,13 @@ public class GildedRoseTest {
     assertThat(itemOne().quality, is(23));
   }
   
+  @Test
+  public void ctConcertPassIsWorthlessWhenAfterItsExpirationDay() {
+    initialize(new Item(BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT, -1, 20));
+    updateQuality();
+    assertThat(itemOne().quality, is(0));
+  }
+  
   private void updateQuality() {
     app.updateQuality();
   }

@@ -29,6 +29,10 @@ class GildedRose {
 
     decrementDaysRemainingToSell(item);
 
+    makePostAgingQualityAdjustment(item);
+  }
+
+  private void makePostAgingQualityAdjustment(Item item) {
     if (pastSellBy(item)) {
       if (isAgedBrie(item)) {
         incrementQuality(item);

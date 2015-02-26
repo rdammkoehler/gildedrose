@@ -47,4 +47,12 @@ public class GildedRoseTest {
       app.updateQuality();
       assertThat(app.items[0].quality, is(42));
     }
+    
+    @Test
+    public void ctAgedBrieIncreasesInQualityByTwoAfterItsExpirationDay() {
+      Item[] items = new Item[] { new Item(AGED_BRIE, -1, 40)};
+      GildedRose app = new GildedRose(items);
+      app.updateQuality();
+      assertThat(app.items[0].quality, is(42));
+    }
 }

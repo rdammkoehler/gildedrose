@@ -9,6 +9,7 @@ class GildedRose {
   private static final String AGED_BRIE = "Aged Brie";
   private static final String BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT = "Backstage passes to a TAFKAL80ETC concert";
   private static final String SULFURAS_HAND_OF_RAGNAROS = "Sulfuras, Hand of Ragnaros";
+  private static final String CONJURED_MANA_CAKE = "Conjured Mana Cake";
   Item[] items;
 
   public GildedRose(Item[] items) {
@@ -93,7 +94,11 @@ class GildedRose {
 
   private void decrementQuality(Item item) {
     if (!isSulfurasHandOfRagnaros(item)) {
-      item.quality = max(QUALITY_FLOOR, item.quality - 1);
+      int adjustBy = -1;
+      if (item.name.equals(CONJURED_MANA_CAKE)) {
+        adjustBy *= 2;
+      }
+      item.quality = max(QUALITY_FLOOR, item.quality + adjustBy);
     }
   }
 }

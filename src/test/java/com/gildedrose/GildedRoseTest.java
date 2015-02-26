@@ -18,48 +18,56 @@ public class GildedRoseTest {
   @Test
   public void itemsWhosQualityIsNegativeAreReportedAsQualityZero() {
     initialize(new Item(JUNK, 0, -1));
-    assertThat(app.items[0].quality, is(0));
+    assertThat(itemOne().quality, is(0));
   }
 
   @Test
   public void ctItemsWhosQualityBecomesNegativeAreReportedAsQualityZero() {
     initialize(new Item(JUNK, 0, 0));
-    app.updateQuality();
-    assertThat(app.items[0].quality, is(0));
+    updateQuality();
+    assertThat(itemOne().quality, is(0));
   }
 
   @Test
   public void ctSpecialItemsWhosQualityIs50CannotGetHigherQuality() {
     initialize(new Item(AGED_BRIE, 0, 50));
-    app.updateQuality();
-    assertThat(app.items[0].quality, is(50));
+    updateQuality();
+    assertThat(itemOne().quality, is(50));
   }
 
   @Test
   public void ctSpecialItemsIncreaseInQualityWithAge() {
     initialize(new Item(AGED_BRIE, 11, 40));
-    app.updateQuality();
-    assertThat(app.items[0].quality, is(41));
+    updateQuality();
+    assertThat(itemOne().quality, is(41));
   }
 
   @Test
   public void ctAgedBrieIncreasesInQualityByTwoOnItsExpirationDay() {
     initialize(new Item(AGED_BRIE, 0, 40));
-    app.updateQuality();
-    assertThat(app.items[0].quality, is(42));
+    updateQuality();
+    assertThat(itemOne().quality, is(42));
   }
 
   @Test
   public void ctAgedBrieIncreasesInQualityByTwoAfterItsExpirationDay() {
     initialize(new Item(AGED_BRIE, -1, 40));
-    app.updateQuality();
-    assertThat(app.items[0].quality, is(42));
+    updateQuality();
+    assertThat(itemOne().quality, is(42));
   }
-
+  
   @Test
   public void ctAgedBrieIncreasesInQualityByOneBeforeItsExpirationDay() {
     initialize(new Item(AGED_BRIE, 1, 40));
+    updateQuality();
+    assertThat(itemOne().quality, is(41));
+  }
+
+  private void updateQuality() {
     app.updateQuality();
-    assertThat(app.items[0].quality, is(41));
+  }
+
+  private Item itemOne() {
+    return app.items[0];
   }
 }

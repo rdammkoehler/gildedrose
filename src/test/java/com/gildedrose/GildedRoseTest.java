@@ -157,7 +157,7 @@ public class GildedRoseTest {
   }
   
   private void updateQuality() {
-    app.updateQuality();
+    app.updateItems();
   }
 
   private Item itemOne() {

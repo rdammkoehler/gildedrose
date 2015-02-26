@@ -149,6 +149,13 @@ public class GildedRoseTest {
     assertThat(itemOne().quality, is(50));
   }
 
+  @Test
+  public void ctHandOfRangnarosSellInLessThanZeroQualityRemainsUnchanged() {
+    initialize(new Item(SULFURAS_HAND_OF_RAGNAROS, -1, 10));
+    updateQuality();
+    assertThat(itemOne().quality, is(10));
+  }
+  
   private void updateQuality() {
     app.updateQuality();
   }

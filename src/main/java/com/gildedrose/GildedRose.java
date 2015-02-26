@@ -25,20 +25,7 @@ class GildedRose {
   }
 
   private void updateItem(Item item) {
-    if (isAgedBrie(item) || isBackstagePass(item)) {
-      incrementQuality(item);
-      if (isBackstagePass(item)) {
-        if (item.sellIn < 11) {
-          incrementQuality(item);
-        }
-
-        if (item.sellIn < 6) {
-          incrementQuality(item);
-        }
-      }
-    } else {
-      decrementQuality(item);
-    }
+    adjustQuality(item);
 
     decrementDaysRemainingToSell(item);
 
@@ -52,6 +39,23 @@ class GildedRose {
           decrementQuality(item);
         }
       }
+    }
+  }
+
+  private void adjustQuality(Item item) {
+    if (isAgedBrie(item) || isBackstagePass(item)) {
+      incrementQuality(item);
+      if (isBackstagePass(item)) {
+        if (item.sellIn < 11) {
+          incrementQuality(item);
+        }
+
+        if (item.sellIn < 6) {
+          incrementQuality(item);
+        }
+      }
+    } else {
+      decrementQuality(item);
     }
   }
 

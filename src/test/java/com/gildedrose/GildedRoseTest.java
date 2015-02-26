@@ -31,7 +31,7 @@ public class GildedRoseTest {
 
   @Test
   public void ctSpecialItemsWhosQualityIs50CannotGetHigherQuality() {
-    initialize(new Item(AGED_BRIE, 0, 50));
+    initialize(new Item(AGED_BRIE, -10, 50));
     updateQuality();
     assertThat(itemOne().quality, is(50));
   }

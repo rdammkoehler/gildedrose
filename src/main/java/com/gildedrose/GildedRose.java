@@ -40,9 +40,7 @@ class GildedRose {
       decrementQuality(item);
     }
 
-    if (!isSulfurasHandOfRagnaros(item)) {
-      decrementDaysRemainingToSell(item);
-    }
+    decrementDaysRemainingToSell(item);
 
     if (pastSellBy(item)) {
       if (isAgedBrie(item)) {

@@ -20,7 +20,7 @@ class GildedRose {
   }
 
   private void updateItem(Item item) {
-    if (!item.name.equals(AGED_BRIE) && !isBackstagePass(item)) {
+    if (!isAgedBrie(item) && !isBackstagePass(item)) {
       if (item.quality > 0) {
         if (!item.name.equals(SULFURAS_HAND_OF_RAGNAROS)) {
           decrementQuality(item);
@@ -51,7 +51,7 @@ class GildedRose {
     }
 
     if (item.sellIn < 0) {
-      if (!item.name.equals(AGED_BRIE)) {
+      if (!isAgedBrie(item)) {
         if (!isBackstagePass(item)) {
           if (item.quality > 0) {
             if (!item.name.equals(SULFURAS_HAND_OF_RAGNAROS)) {
@@ -67,6 +67,10 @@ class GildedRose {
         }
       }
     }
+  }
+
+  private boolean isAgedBrie(Item item) {
+    return item.name.equals(AGED_BRIE);
   }
 
   private boolean isBackstagePass(Item item) {

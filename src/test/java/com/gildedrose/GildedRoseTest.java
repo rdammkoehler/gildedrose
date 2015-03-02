@@ -7,7 +7,7 @@ import org.junit.Test;
 
 public class GildedRoseTest {
 
-  private static final int QUALITY_OF_SULFURAS_HAND_OF_RAGNAROS = 80;
+  private static final Integer QUALITY_OF_SULFURAS_HAND_OF_RAGNAROS = 80;
   private static final String CONJURED_MANA_CAKE = "Conjured Mana Cake";
   private static final String SULFURAS_HAND_OF_RAGNAROS = "Sulfuras, Hand of Ragnaros";
   private static final String BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT = "Backstage passes to a TAFKAL80ETC concert";

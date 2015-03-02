@@ -38,6 +38,7 @@ class GildedRose {
   private static final String BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT = "Backstage passes to a TAFKAL80ETC concert";
   private static final String SULFURAS_HAND_OF_RAGNAROS = "Sulfuras, Hand of Ragnaros";
   private static final String CONJURED_MANA_CAKE = "Conjured Mana Cake";
+  private static final Integer QUALITY_OF_SULFURAS_HAND_OF_RAGNAROS = 80;
   Item[] items;
   private static final Map<String, ItemModifier> MODIFIER_MAP = new HashMap<String, ItemModifier>() {
     private static final long serialVersionUID = -8102026157041850052L;
@@ -64,7 +65,7 @@ class GildedRose {
       item.quality = max(QUALITY_FLOOR, item.quality);
       item.quality = min(QUALITY_CEILING, item.quality);
       if (SULFURAS_HAND_OF_RAGNAROS.equals(item.name)) {
-        item.quality = 80;
+        item.quality = QUALITY_OF_SULFURAS_HAND_OF_RAGNAROS;
       }
     }
   }

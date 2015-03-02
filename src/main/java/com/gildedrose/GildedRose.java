@@ -40,12 +40,6 @@ class GildedRose {
   Item[] items;
   private static final Map<String, ItemModifier> MODIFIER_MAP = new HashMap<String, ItemModifier>() {
     private static final long serialVersionUID = -8102026157041850052L;
-    {
-      put(AGED_BRIE, BRIE_ITEM_MODIFIER);
-      put(BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT, BACKSTAGE_PASS_ITEM_MODIFIER);
-      put(SULFURAS_HAND_OF_RAGNAROS, AGELESS_ITEM_MODIFIER);
-      put(CONJURED_MANA_CAKE, DOUBLE_DECAYING_ITEM_MODIFIER);
-    }
 
     @Override
     public ItemModifier get(Object key) {
@@ -59,10 +53,15 @@ class GildedRose {
 
   public GildedRose(Item[] items) {
     this.items = items;
+
+    MODIFIER_MAP.put(AGED_BRIE, BRIE_ITEM_MODIFIER);
+    MODIFIER_MAP.put(BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT, BACKSTAGE_PASS_ITEM_MODIFIER);
+    MODIFIER_MAP.put(SULFURAS_HAND_OF_RAGNAROS, AGELESS_ITEM_MODIFIER);
+    MODIFIER_MAP.put(CONJURED_MANA_CAKE, DOUBLE_DECAYING_ITEM_MODIFIER);
+
     for (Item item : items) {
       item.quality = (item.quality < 0) ? 0 : item.quality;
     }
-
   }
 
   public void updateItems() {

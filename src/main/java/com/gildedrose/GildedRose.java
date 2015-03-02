@@ -45,7 +45,11 @@ class GildedRose {
 
     @Override
     public ItemModifier get(Object key) {
-      return (containsKey(key)) ? super.get(key) : DECAYING_ITEM_MODIFIER;
+      if (containsKey(key)) {
+        return super.get(key);
+      } else {
+        return DECAYING_ITEM_MODIFIER;
+      }
     }
   };
 

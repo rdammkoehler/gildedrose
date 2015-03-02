@@ -14,6 +14,7 @@ class GildedRose {
 
   private static final ItemModifier AGELESS_ITEM_MODIFIER = new ItemModifier(0, 0);
   private static final ItemModifier BACKSTAGE_PASS_ITEM_MODIFIER = new ItemModifier(DEFAULT_QUALITY_INCREASE_AMOUNT, -1) {
+    @Override
     public void step(Item item) {
       adjustQuality(item);
       if (item.sellIn < 11) {

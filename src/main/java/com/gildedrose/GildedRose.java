@@ -81,11 +81,11 @@ class GildedRose {
     }
 
     protected void adjustQuality(Item item) {
-      int adjustment = item.quality + qualityAdjustment;
+      int newQuality = item.quality + qualityAdjustment;
       if (isDecaying()) {
-        item.quality = max(QUALITY_FLOOR, adjustment);
+        item.quality = max(QUALITY_FLOOR, newQuality);
       } else {
-        item.quality = min(QUALITY_CEILING, adjustment);
+        item.quality = min(QUALITY_CEILING, newQuality);
       }
     }
 

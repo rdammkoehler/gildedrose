@@ -4,11 +4,7 @@ import static java.lang.Math.max;
 import static java.lang.Math.min;
 
 class GildedRose {
-  private static final int DEFAULT_QUALITY_INCREASE_AMOUNT = 1;
-  private static final int DEFAULT_QUALITY_DECAY_AMOUNT = -1;
-  private static final int QUALITY_FLOOR = 0;
-  private static final int WORTHLESS = QUALITY_FLOOR;
-  private static final int QUALITY_CEILING = 50;
+
   private static final String AGED_BRIE = "Aged Brie";
   private static final String BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT = "Backstage passes to a TAFKAL80ETC concert";
   private static final String SULFURAS_HAND_OF_RAGNAROS = "Sulfuras, Hand of Ragnaros";
@@ -24,89 +20,110 @@ class GildedRose {
 
   public void updateItems() {
     for (Item item : items) {
-      updateItem(item);
+      ItemModifier modifier = wrap(item);
+      modifier.step();
     }
   }
 
-  private void updateItem(Item item) {
-    adjustQuality(item);
-    decrementDaysRemainingToSell(item);
-    makePostAgingQualityAdjustment(item);
-  }
-
-  private void makePostAgingQualityAdjustment(Item item) {
-    if (pastSellBy(item)) {
-      if (isAgedBrie(item)) {
-        incrementQuality(item);
-      } else {
-        if (isBackstagePass(item)) {
-          makeWorthless(item);
-        } else {
-          decrementQuality(item);
-        }
-      }
-    }
-  }
-
-  private void adjustQuality(Item item) {
-    if (isAgedBrie(item) || isBackstagePass(item)) {
-      incrementQuality(item);
-      if (isBackstagePass(item)) {
-        if (item.sellIn < 11) {
-          incrementQuality(item);
-        }
-
-        if (item.sellIn < 6) {
-          incrementQuality(item);
-        }
-      }
+  private ItemModifier wrap(Item item) {
+    if (AGED_BRIE.equals(item.name)) {
+      return new AccruingItem(item);
+    } else if (BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT.equals(item.name)) {
+      return new AsomtoticItem(item);
+    } else if (SULFURAS_HAND_OF_RAGNAROS.equals(item.name)) {
+      return new AgelessItem(item);
+    } else if (CONJURED_MANA_CAKE.equals(item.name)) {
+      return new DoubleDecayingItem(item);
     } else {
-      decrementQuality(item);
+      return new DecayingItem(item);
     }
   }
 
-  private boolean pastSellBy(Item item) {
-    return item.sellIn < 0;
-  }
+  abstract class ItemModifier {
+    protected static final int DEFAULT_QUALITY_INCREASE_AMOUNT = 1;
+    protected static final int DEFAULT_QUALITY_DECAY_AMOUNT = -1;
+    protected static final int QUALITY_FLOOR = 0;
+    protected static final int WORTHLESS = QUALITY_FLOOR;
+    protected static final int QUALITY_CEILING = 50;
+    private Item item;
+    private Integer qualityAdjustment = DEFAULT_QUALITY_DECAY_AMOUNT;
+    private Integer sellInAdjustment = -1;
 
-  private void decrementDaysRemainingToSell(Item item) {
-    if (!isSulfurasHandOfRagnaros(item)) {
-      item.sellIn = item.sellIn - 1;
+    public ItemModifier(Item item, Integer qualityAdjustment, Integer sellInAdjustment) {
+      this.item = item;
+      this.qualityAdjustment = qualityAdjustment;
+      this.sellInAdjustment = sellInAdjustment;
+    }
+
+    protected boolean pastSellBy() {
+      return item.sellIn < 0;
+    }
+
+    protected void adjustQuality() {
+      if (qualityAdjustment < 0) {
+        item.quality = max(QUALITY_FLOOR, item.quality + qualityAdjustment);
+      } else {
+        item.quality = min(QUALITY_CEILING, item.quality + qualityAdjustment);
+      }
+    }
+
+    protected void adjustSellIn() {
+      item.sellIn = item.sellIn + sellInAdjustment;
+    }
+
+    public void step() {
+      adjustQuality();
+      adjustSellIn();
+      if (pastSellBy()) {
+        adjustQuality();
+      }
     }
   }
 
-  private boolean isSulfurasHandOfRagnaros(Item item) {
-    return item.name.equals(SULFURAS_HAND_OF_RAGNAROS);
+  class DecayingItem extends ItemModifier {
+    DecayingItem(Item item) {
+      super(item, DEFAULT_QUALITY_DECAY_AMOUNT, -1);
+    }
+
   }
 
-  private boolean isAgedBrie(Item item) {
-    return item.name.equals(AGED_BRIE);
+  class DoubleDecayingItem extends ItemModifier {
+    public DoubleDecayingItem(Item item) {
+      super(item, 2 * DEFAULT_QUALITY_DECAY_AMOUNT, -1);
+    }
+
   }
 
-  private boolean isBackstagePass(Item item) {
-    return item.name.equals(BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT);
+  class AccruingItem extends ItemModifier {
+    AccruingItem(Item item) {
+      super(item, DEFAULT_QUALITY_INCREASE_AMOUNT, -1);
+    }
+
   }
 
-  private void makeWorthless(Item item) {
-    item.quality = WORTHLESS;
-  }
+  class AsomtoticItem extends ItemModifier {
+    AsomtoticItem(Item item) {
+      super(item, DEFAULT_QUALITY_INCREASE_AMOUNT, -1);
+    }
 
-  private void incrementQuality(Item item) {
-    item.quality = min(QUALITY_CEILING, item.quality + DEFAULT_QUALITY_INCREASE_AMOUNT);
-  }
-
-  private void decrementQuality(Item item) {
-    if (!isSulfurasHandOfRagnaros(item)) {
-      int adjustBy = calculateQualityDecayAmount(item);
-      item.quality = max(QUALITY_FLOOR, item.quality + adjustBy);
+    public void step() {
+      adjustQuality();
+      if (super.item.sellIn < 11) {
+        adjustQuality();
+      }
+      if (super.item.sellIn < 6) {
+        adjustQuality();
+      }
+      adjustSellIn();
+      if (pastSellBy()) {
+        super.item.quality = 0;
+      }
     }
   }
 
-  private int calculateQualityDecayAmount(Item item) {
-    int adjustBy = DEFAULT_QUALITY_DECAY_AMOUNT;
-    if (item.name.equals(CONJURED_MANA_CAKE)) {
-      adjustBy *= 2;
+  class AgelessItem extends ItemModifier {
+    AgelessItem(Item item) {
+      super(item, 0, 0);
     }
-    return adjustBy;
   }
 }

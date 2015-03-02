@@ -3,6 +3,9 @@ package com.gildedrose;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
+import java.util.HashMap;
+import java.util.Map;
+
 class GildedRose {
   private static final int DEFAULT_QUALITY_INCREASE_AMOUNT = 1;
   private static final int DEFAULT_QUALITY_DECAY_AMOUNT = -1;
@@ -27,39 +30,45 @@ class GildedRose {
   };
   private static final ItemModifier BRIE_ITEM_MODIFIER = new ItemModifier(DEFAULT_QUALITY_INCREASE_AMOUNT, -1);
   private static final ItemModifier DECAYING_ITEM_MODIFIER = new ItemModifier(DEFAULT_QUALITY_DECAY_AMOUNT, -1);
-  private static final ItemModifier DOUBLE_DECAYING_ITEM_MODIFIER = new ItemModifier(2 * DEFAULT_QUALITY_DECAY_AMOUNT, -1);
+  private static final ItemModifier DOUBLE_DECAYING_ITEM_MODIFIER = new ItemModifier(2 * DEFAULT_QUALITY_DECAY_AMOUNT,
+      -1);
 
   private static final String AGED_BRIE = "Aged Brie";
   private static final String BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT = "Backstage passes to a TAFKAL80ETC concert";
   private static final String SULFURAS_HAND_OF_RAGNAROS = "Sulfuras, Hand of Ragnaros";
   private static final String CONJURED_MANA_CAKE = "Conjured Mana Cake";
   Item[] items;
+  private static final Map<String, ItemModifier> MODIFIER_MAP = new HashMap<String, ItemModifier>() {
+    private static final long serialVersionUID = -8102026157041850052L;
+    {
+      put(AGED_BRIE, BRIE_ITEM_MODIFIER);
+      put(BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT, BACKSTAGE_PASS_ITEM_MODIFIER);
+      put(SULFURAS_HAND_OF_RAGNAROS, AGELESS_ITEM_MODIFIER);
+      put(CONJURED_MANA_CAKE, DOUBLE_DECAYING_ITEM_MODIFIER);
+    }
+
+    @Override
+    public ItemModifier get(Object key) {
+      ItemModifier modifier = DECAYING_ITEM_MODIFIER;
+      if (containsKey(key)) {
+        modifier = super.get(key);
+      }
+      return modifier;
+    }
+  };
 
   public GildedRose(Item[] items) {
     this.items = items;
     for (Item item : items) {
       item.quality = (item.quality < 0) ? 0 : item.quality;
     }
+
   }
 
   public void updateItems() {
     for (Item item : items) {
-      ItemModifier modifier = selectModifierFor(item);
+      ItemModifier modifier = MODIFIER_MAP.get(item.name);
       modifier.step(item);
-    }
-  }
-
-  private ItemModifier selectModifierFor(Item item) {
-    if (AGED_BRIE.equals(item.name)) {
-      return BRIE_ITEM_MODIFIER;
-    } else if (BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT.equals(item.name)) {
-      return BACKSTAGE_PASS_ITEM_MODIFIER;
-    } else if (SULFURAS_HAND_OF_RAGNAROS.equals(item.name)) {
-      return AGELESS_ITEM_MODIFIER;
-    } else if (CONJURED_MANA_CAKE.equals(item.name)) {
-      return DOUBLE_DECAYING_ITEM_MODIFIER;
-    } else {
-      return DECAYING_ITEM_MODIFIER;
     }
   }
 

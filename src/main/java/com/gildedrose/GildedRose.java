@@ -17,16 +17,13 @@ class GildedRose {
     @Override
     public void step(Item item) {
       adjustQuality(item);
-      if (item.sellIn < 11) {
+      if (item.sellIn < 11)
         adjustQuality(item);
-      }
-      if (item.sellIn < 6) {
+      if (item.sellIn < 6)
         adjustQuality(item);
-      }
       adjustSellIn(item);
-      if (pastSellBy(item)) {
+      if (pastSellBy(item))
         item.quality = 0;
-      }
     }
   };
   private static final ItemModifier ACCRUING_ITEM_MODIFIER = new ItemModifier(DEFAULT_QUALITY_INCREASE_AMOUNT, -1);

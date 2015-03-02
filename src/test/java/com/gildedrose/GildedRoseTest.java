@@ -7,6 +7,7 @@ import org.junit.Test;
 
 public class GildedRoseTest {
 
+  private static final int QUALITY_OF_SULFURAS_HAND_OF_RAGNAROS = 80;
   private static final String CONJURED_MANA_CAKE = "Conjured Mana Cake";
   private static final String SULFURAS_HAND_OF_RAGNAROS = "Sulfuras, Hand of Ragnaros";
   private static final String BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT = "Backstage passes to a TAFKAL80ETC concert";
@@ -126,7 +127,7 @@ public class GildedRoseTest {
   public void ctHandOfRangnarosQualityNeverDecreases() {
     initialize(new Item(SULFURAS_HAND_OF_RAGNAROS, 10, 10));
     updateItems();
-    assertThat(itemOne().quality, is(10));
+    assertThat(itemOne().quality, is(QUALITY_OF_SULFURAS_HAND_OF_RAGNAROS));
   }
 
   @Test
@@ -154,7 +155,7 @@ public class GildedRoseTest {
   public void ctHandOfRangnarosSellInLessThanZeroQualityRemainsUnchanged() {
     initialize(new Item(SULFURAS_HAND_OF_RAGNAROS, -1, 10));
     updateItems();
-    assertThat(itemOne().quality, is(10));
+    assertThat(itemOne().quality, is(QUALITY_OF_SULFURAS_HAND_OF_RAGNAROS));
   }
 
   @Test
@@ -164,6 +165,12 @@ public class GildedRoseTest {
     assertThat(itemOne().quality, is(0));
   }
 
+  @Test
+  public void handOfRangnarosAlwaysHasQuality80() {
+    initialize(new Item(SULFURAS_HAND_OF_RAGNAROS, -1, 10));
+    assertThat(itemOne().quality, is(QUALITY_OF_SULFURAS_HAND_OF_RAGNAROS));
+  }
+  
   private void updateItems() {
     app.updateItems();
   }

@@ -56,15 +56,22 @@ class GildedRose {
     MODIFIER_MAP.put(SULFURAS_HAND_OF_RAGNAROS, AGELESS_ITEM_MODIFIER);
     MODIFIER_MAP.put(CONJURED_MANA_CAKE, DOUBLE_DECAYING_ITEM_MODIFIER);
 
+    preProcessItems();
+  }
+
+  private void preProcessItems() {
     for (Item item : items) {
-      item.quality = (item.quality < QUALITY_FLOOR) ? QUALITY_FLOOR : item.quality;
+      item.quality = max(QUALITY_FLOOR, item.quality);
+      item.quality = min(QUALITY_CEILING, item.quality);
+      if (SULFURAS_HAND_OF_RAGNAROS.equals(item.name)) {
+        item.quality = 80;
+      }
     }
   }
 
   public void updateItems() {
     for (Item item : items) {
-      ItemModifier modifier = MODIFIER_MAP.get(item.name);
-      modifier.step(item);
+      MODIFIER_MAP.get(item.name).step(item);
     }
   }
 
@@ -83,11 +90,17 @@ class GildedRose {
 
     protected void adjustQuality(Item item) {
       int newQuality = item.quality + qualityAdjustment;
-      if (isDecaying()) {
-        item.quality = max(QUALITY_FLOOR, newQuality);
-      } else {
-        item.quality = min(QUALITY_CEILING, newQuality);
+      if (isAged()) {
+        if (isDecaying()) {
+          item.quality = max(QUALITY_FLOOR, newQuality);
+        } else {
+          item.quality = min(QUALITY_CEILING, newQuality);
+        }
       }
+    }
+
+    private boolean isAged() {
+      return qualityAdjustment != 0 || sellInAdjustment != 0;
     }
 
     private boolean isDecaying() {

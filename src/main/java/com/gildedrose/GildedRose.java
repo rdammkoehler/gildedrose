@@ -28,7 +28,7 @@ class GildedRose {
       }
     }
   };
-  private static final ItemModifier BRIE_ITEM_MODIFIER = new ItemModifier(DEFAULT_QUALITY_INCREASE_AMOUNT, -1);
+  private static final ItemModifier ACCRUING_ITEM_MODIFIER = new ItemModifier(DEFAULT_QUALITY_INCREASE_AMOUNT, -1);
   private static final ItemModifier DECAYING_ITEM_MODIFIER = new ItemModifier(DEFAULT_QUALITY_DECAY_AMOUNT, -1);
   private static final ItemModifier DOUBLE_DECAYING_ITEM_MODIFIER = new ItemModifier(2 * DEFAULT_QUALITY_DECAY_AMOUNT,
       -1);
@@ -43,24 +43,20 @@ class GildedRose {
 
     @Override
     public ItemModifier get(Object key) {
-      ItemModifier modifier = DECAYING_ITEM_MODIFIER;
-      if (containsKey(key)) {
-        modifier = super.get(key);
-      }
-      return modifier;
+      return (containsKey(key)) ? super.get(key) : DECAYING_ITEM_MODIFIER;
     }
   };
 
   public GildedRose(Item[] items) {
     this.items = items;
 
-    MODIFIER_MAP.put(AGED_BRIE, BRIE_ITEM_MODIFIER);
+    MODIFIER_MAP.put(AGED_BRIE, ACCRUING_ITEM_MODIFIER);
     MODIFIER_MAP.put(BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT, BACKSTAGE_PASS_ITEM_MODIFIER);
     MODIFIER_MAP.put(SULFURAS_HAND_OF_RAGNAROS, AGELESS_ITEM_MODIFIER);
     MODIFIER_MAP.put(CONJURED_MANA_CAKE, DOUBLE_DECAYING_ITEM_MODIFIER);
 
     for (Item item : items) {
-      item.quality = (item.quality < 0) ? 0 : item.quality;
+      item.quality = (item.quality < QUALITY_FLOOR) ? QUALITY_FLOOR : item.quality;
     }
   }
 
@@ -85,11 +81,16 @@ class GildedRose {
     }
 
     protected void adjustQuality(Item item) {
-      if (qualityAdjustment < 0) {
-        item.quality = max(QUALITY_FLOOR, item.quality + qualityAdjustment);
+      int adjustment = item.quality + qualityAdjustment;
+      if (isDecaying()) {
+        item.quality = max(QUALITY_FLOOR, adjustment);
       } else {
-        item.quality = min(QUALITY_CEILING, item.quality + qualityAdjustment);
+        item.quality = min(QUALITY_CEILING, adjustment);
       }
+    }
+
+    private boolean isDecaying() {
+      return qualityAdjustment < 0;
     }
 
     protected void adjustSellIn(Item item) {

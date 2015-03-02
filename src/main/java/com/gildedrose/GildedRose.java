@@ -13,17 +13,20 @@ class GildedRose {
   private static final int QUALITY_CEILING = 50;
 
   private static final ItemModifier AGELESS_ITEM_MODIFIER = new ItemModifier(0, 0);
-  private static final ItemModifier BACKSTAGE_PASS_ITEM_MODIFIER = new ItemModifier(DEFAULT_QUALITY_INCREASE_AMOUNT, -1) {
+  private static final ItemModifier PASS_ITEM_MODIFIER = new ItemModifier(DEFAULT_QUALITY_INCREASE_AMOUNT, -1) {
     @Override
     public void step(Item item) {
       adjustQuality(item);
-      if (item.sellIn < 11)
+      if (item.sellIn < 11) {
         adjustQuality(item);
-      if (item.sellIn < 6)
+      }
+      if (item.sellIn < 6) {
         adjustQuality(item);
+      }
       adjustSellIn(item);
-      if (pastSellBy(item))
+      if (pastSellBy(item)) {
         item.quality = 0;
+      }
     }
   };
   private static final ItemModifier ACCRUING_ITEM_MODIFIER = new ItemModifier(DEFAULT_QUALITY_INCREASE_AMOUNT, -1);
@@ -58,7 +61,7 @@ class GildedRose {
 
   private void initializeItemModifierMapping() {
     MODIFIER_MAP.put(AGED_BRIE, ACCRUING_ITEM_MODIFIER);
-    MODIFIER_MAP.put(BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT, BACKSTAGE_PASS_ITEM_MODIFIER);
+    MODIFIER_MAP.put(BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT, PASS_ITEM_MODIFIER);
     MODIFIER_MAP.put(SULFURAS_HAND_OF_RAGNAROS, AGELESS_ITEM_MODIFIER);
     MODIFIER_MAP.put(CONJURED_MANA_CAKE, DOUBLE_DECAYING_ITEM_MODIFIER);
   }

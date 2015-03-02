@@ -27,24 +27,38 @@ class GildedRose {
 
   private ItemModifier wrap(Item item) {
     if (AGED_BRIE.equals(item.name)) {
-      return new AccruingItem(item);
+      return new ItemModifier(item, DEFAULT_QUALITY_INCREASE_AMOUNT, -1);
     } else if (BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT.equals(item.name)) {
-      return new AsomtoticItem(item);
+      return new ItemModifier(item, DEFAULT_QUALITY_INCREASE_AMOUNT, -1) {
+        public void step() {
+          adjustQuality();
+          if (super.item.sellIn < 11) {
+            adjustQuality();
+          }
+          if (super.item.sellIn < 6) {
+            adjustQuality();
+          }
+          adjustSellIn();
+          if (pastSellBy()) {
+            super.item.quality = 0;
+          }
+        }
+      };
     } else if (SULFURAS_HAND_OF_RAGNAROS.equals(item.name)) {
-      return new AgelessItem(item);
+      return new ItemModifier(item, 0, 0);
     } else if (CONJURED_MANA_CAKE.equals(item.name)) {
-      return new DoubleDecayingItem(item);
+      return new ItemModifier(item, 2 * DEFAULT_QUALITY_DECAY_AMOUNT, -1);
     } else {
-      return new DecayingItem(item);
+      return new ItemModifier(item, DEFAULT_QUALITY_DECAY_AMOUNT, -1);
     }
   }
 
-  abstract class ItemModifier {
-    protected static final int DEFAULT_QUALITY_INCREASE_AMOUNT = 1;
-    protected static final int DEFAULT_QUALITY_DECAY_AMOUNT = -1;
-    protected static final int QUALITY_FLOOR = 0;
-    protected static final int WORTHLESS = QUALITY_FLOOR;
-    protected static final int QUALITY_CEILING = 50;
+  protected static final int DEFAULT_QUALITY_INCREASE_AMOUNT = 1;
+  protected static final int DEFAULT_QUALITY_DECAY_AMOUNT = -1;
+  protected static final int QUALITY_FLOOR = 0;
+  protected static final int QUALITY_CEILING = 50;
+
+  class ItemModifier {
     private Item item;
     private Integer qualityAdjustment = DEFAULT_QUALITY_DECAY_AMOUNT;
     private Integer sellInAdjustment = -1;
@@ -80,50 +94,4 @@ class GildedRose {
     }
   }
 
-  class DecayingItem extends ItemModifier {
-    DecayingItem(Item item) {
-      super(item, DEFAULT_QUALITY_DECAY_AMOUNT, -1);
-    }
-
-  }
-
-  class DoubleDecayingItem extends ItemModifier {
-    public DoubleDecayingItem(Item item) {
-      super(item, 2 * DEFAULT_QUALITY_DECAY_AMOUNT, -1);
-    }
-
-  }
-
-  class AccruingItem extends ItemModifier {
-    AccruingItem(Item item) {
-      super(item, DEFAULT_QUALITY_INCREASE_AMOUNT, -1);
-    }
-
-  }
-
-  class AsomtoticItem extends ItemModifier {
-    AsomtoticItem(Item item) {
-      super(item, DEFAULT_QUALITY_INCREASE_AMOUNT, -1);
-    }
-
-    public void step() {
-      adjustQuality();
-      if (super.item.sellIn < 11) {
-        adjustQuality();
-      }
-      if (super.item.sellIn < 6) {
-        adjustQuality();
-      }
-      adjustSellIn();
-      if (pastSellBy()) {
-        super.item.quality = 0;
-      }
-    }
-  }
-
-  class AgelessItem extends ItemModifier {
-    AgelessItem(Item item) {
-      super(item, 0, 0);
-    }
-  }
 }

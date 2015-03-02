@@ -51,13 +51,15 @@ class GildedRose {
 
   public GildedRose(Item[] items) {
     this.items = items;
+    initializeItemModifierMapping();
+    preProcessItems();
+  }
 
+  private void initializeItemModifierMapping() {
     MODIFIER_MAP.put(AGED_BRIE, ACCRUING_ITEM_MODIFIER);
     MODIFIER_MAP.put(BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT, BACKSTAGE_PASS_ITEM_MODIFIER);
     MODIFIER_MAP.put(SULFURAS_HAND_OF_RAGNAROS, AGELESS_ITEM_MODIFIER);
     MODIFIER_MAP.put(CONJURED_MANA_CAKE, DOUBLE_DECAYING_ITEM_MODIFIER);
-
-    preProcessItems();
   }
 
   private void preProcessItems() {

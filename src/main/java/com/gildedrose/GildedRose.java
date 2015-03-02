@@ -20,36 +20,36 @@ class GildedRose {
 
   public void updateItems() {
     for (Item item : items) {
-      ItemModifier modifier = wrap(item);
-      modifier.step();
+      ItemModifier modifier = selectModifierFor(item);
+      modifier.step(item);
     }
   }
 
-  private ItemModifier wrap(Item item) {
+  private ItemModifier selectModifierFor(Item item) {
     if (AGED_BRIE.equals(item.name)) {
-      return new ItemModifier(item, DEFAULT_QUALITY_INCREASE_AMOUNT, -1);
+      return new ItemModifier(DEFAULT_QUALITY_INCREASE_AMOUNT, -1);
     } else if (BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT.equals(item.name)) {
-      return new ItemModifier(item, DEFAULT_QUALITY_INCREASE_AMOUNT, -1) {
-        public void step() {
-          adjustQuality();
-          if (super.item.sellIn < 11) {
-            adjustQuality();
+      return new ItemModifier(DEFAULT_QUALITY_INCREASE_AMOUNT, -1) {
+        public void step(Item item) {
+          adjustQuality(item);
+          if (item.sellIn < 11) {
+            adjustQuality(item);
           }
-          if (super.item.sellIn < 6) {
-            adjustQuality();
+          if (item.sellIn < 6) {
+            adjustQuality(item);
           }
-          adjustSellIn();
-          if (pastSellBy()) {
-            super.item.quality = 0;
+          adjustSellIn(item);
+          if (pastSellBy(item)) {
+            item.quality = 0;
           }
         }
       };
     } else if (SULFURAS_HAND_OF_RAGNAROS.equals(item.name)) {
-      return new ItemModifier(item, 0, 0);
+      return new ItemModifier(0, 0);
     } else if (CONJURED_MANA_CAKE.equals(item.name)) {
-      return new ItemModifier(item, 2 * DEFAULT_QUALITY_DECAY_AMOUNT, -1);
+      return new ItemModifier(2 * DEFAULT_QUALITY_DECAY_AMOUNT, -1);
     } else {
-      return new ItemModifier(item, DEFAULT_QUALITY_DECAY_AMOUNT, -1);
+      return new ItemModifier(DEFAULT_QUALITY_DECAY_AMOUNT, -1);
     }
   }
 
@@ -59,21 +59,19 @@ class GildedRose {
   protected static final int QUALITY_CEILING = 50;
 
   class ItemModifier {
-    private Item item;
     private Integer qualityAdjustment = DEFAULT_QUALITY_DECAY_AMOUNT;
     private Integer sellInAdjustment = -1;
 
-    public ItemModifier(Item item, Integer qualityAdjustment, Integer sellInAdjustment) {
-      this.item = item;
+    public ItemModifier(Integer qualityAdjustment, Integer sellInAdjustment) {
       this.qualityAdjustment = qualityAdjustment;
       this.sellInAdjustment = sellInAdjustment;
     }
 
-    protected boolean pastSellBy() {
+    protected boolean pastSellBy(Item item) {
       return item.sellIn < 0;
     }
 
-    protected void adjustQuality() {
+    protected void adjustQuality(Item item) {
       if (qualityAdjustment < 0) {
         item.quality = max(QUALITY_FLOOR, item.quality + qualityAdjustment);
       } else {
@@ -81,17 +79,16 @@ class GildedRose {
       }
     }
 
-    protected void adjustSellIn() {
+    protected void adjustSellIn(Item item) {
       item.sellIn = item.sellIn + sellInAdjustment;
     }
 
-    public void step() {
-      adjustQuality();
-      adjustSellIn();
-      if (pastSellBy()) {
-        adjustQuality();
+    public void step(Item item) {
+      adjustQuality(item);
+      adjustSellIn(item);
+      if (pastSellBy(item)) {
+        adjustQuality(item);
       }
     }
   }
-
 }

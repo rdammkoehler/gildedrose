@@ -11,49 +11,49 @@ GildedRose Exercise
 
 * Refactored
 
-* * for(i) -> for(Item)
+  * for(i) -> for(Item)
 
-* * String Literals -> Constants
+  * String Literals -> Constants
 
-* * Minimized QUAlITY_CEILING rule
+  * Minimized QUAlITY_CEILING rule
 
-* * Minimized QUALIY_FLOOR rule
+  * Minimized QUALIY_FLOOR rule
 
-* * Applied Math.min/max to QUALITY_* rules
+  * Applied Math.min/max to QUALITY_* rules
 
-* * Extracted pastSellBy(Item) method
+  * Extracted pastSellBy(Item) method
 
-* * Reversed various bits of logic to avoid negation expressions (Readability)
+  * Reversed various bits of logic to avoid negation expressions (Readability)
 
-* * Minimized SULFUROUS Item rule
+  * Minimized SULFUROUS Item rule
 
-* * Extracted adjustQuality(Item) method
+  * Extracted adjustQuality(Item) method
 
-* * Extracted makePostAgingQualityAdjustment(Item) method
+  * Extracted makePostAgingQualityAdjustment(Item) method
 
-* * Rename in public interface updateQuality() -> updateItems() [Because updateQuality is only part of the activity]
+  * Rename in public interface updateQuality() -> updateItems() [Because updateQuality is only part of the activity]
 
-* * Formatted and Cleaned Up code
+  * Formatted and Cleaned Up code
 
-* * Added Conjured Items Double Decay Rule
+  * Added Conjured Items Double Decay Rule
 
-* * Refactor: Method Extract: Logic and Calculation
+  * Refactor: Method Extract: Logic and Calculation
 
-* * Enable Sonarqube
+  * Enable Sonarqube
 
-* * Make WORTHLESS constant = QUALITY_FLOOR
+  * Make WORTHLESS constant = QUALITY_FLOOR
 
-* * Configured JaCoCo
+  * Configured JaCoCo
 
-* * Radical Modification (remove the brittle bits as much as possible)
+  * Radical Modification (remove the brittle bits as much as possible)
 
-* * * Created Sub-Classes for each kind of object that wrap Item
+    * Created Sub-Classes for each kind of object that wrap Item
 
-* * * Remove Item from state of sub-class
+    * Remove Item from state of sub-class
 
-* * * Collapse sub-classes into a parameterized class
+    * Collapse sub-classes into a parameterized class
 
-* * * Switch from chained-if to Map lookup for ItemModifier
+    * Switch from chained-if to Map lookup for ItemModifier
 
 * Added Travis
 

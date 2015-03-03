@@ -16,16 +16,20 @@ class GildedRose {
   private static final ItemModifier PASS_ITEM_MODIFIER = new ItemModifier(DEFAULT_QUALITY_INCREASE_AMOUNT, -1) {
     @Override
     public void step(Item item) {
+      adjustQualityBasedOnNearnessOfConcertDate(item);
+      adjustSellIn(item);
+      if (pastSellBy(item)) {
+        item.quality = 0;
+      }
+    }
+
+    private void adjustQualityBasedOnNearnessOfConcertDate(Item item) {
       adjustQuality(item);
       if (item.sellIn < 11) {
         adjustQuality(item);
       }
       if (item.sellIn < 6) {
         adjustQuality(item);
-      }
-      adjustSellIn(item);
-      if (pastSellBy(item)) {
-        item.quality = 0;
       }
     }
   };

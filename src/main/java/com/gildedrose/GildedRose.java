@@ -3,6 +3,7 @@ package com.gildedrose;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
+import java.io.Serial;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,7 +45,8 @@ class GildedRose {
   private static final String CONJURED_MANA_CAKE = "Conjured Mana Cake";
   private static final Integer QUALITY_OF_SULFURAS_HAND_OF_RAGNAROS = 80;
   Item[] items;
-  private static final Map<String, ItemModifier> MODIFIER_MAP = new HashMap<String, ItemModifier>() {
+  private static final Map<String, ItemModifier> MODIFIER_MAP = new HashMap<>() {
+    @Serial
     private static final long serialVersionUID = -8102026157041850052L;
 
     @Override
@@ -87,8 +89,8 @@ class GildedRose {
   }
 
   static class ItemModifier {
-    private Integer qualityAdjustment = DEFAULT_QUALITY_DECAY_AMOUNT;
-    private Integer sellInAdjustment = -1;
+    private final Integer qualityAdjustment;
+    private final Integer sellInAdjustment;
 
     public ItemModifier(Integer qualityAdjustment, Integer sellInAdjustment) {
       this.qualityAdjustment = qualityAdjustment;
